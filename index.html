@@ -1,9 +1,244 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url='https://drive.google.com/drive/folders/1TuHiogcZ9p08ol-aS3qd7Wcj0U0NhDtS?usp=sharing'" />
-  </head>
-  <body>
-    Redirecting to Google Drive...
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Google Drive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .redirect-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo {
+            font-size: 48px;
+            color: #4285F4;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        /* 这是核心：更大的Google Drive链接区域 */
+        .drive-box {
+            background: linear-gradient(120deg, #4285F4, #34A853);
+            border-radius: 18px;
+            padding: 40px 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(66, 133, 244, 0.4);
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+        
+        .drive-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(66, 133, 244, 0.6);
+        }
+        
+        .drive-icon {
+            font-size: 64px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .drive-link {
+            display: inline-block;
+            background-color: white;
+            color: #4285F4;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .drive-link:hover {
+            background-color: #f1f8ff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .drive-link i {
+            margin-right: 10px;
+        }
+        
+        .countdown {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        
+        #timer {
+            font-weight: 700;
+            color: #e74c3c;
+            font-size: 1.3rem;
+        }
+        
+        .manual-redirect {
+            color: #95a5a6;
+            font-size: 0.95rem;
+            margin-top: 30px;
+            line-height: 1.5;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #ecf0f1;
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #34A853, #4285F4);
+            animation: progressAnimation 5s linear;
+        }
+        
+        @keyframes progressAnimation {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .redirect-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .drive-box {
+                padding: 30px 20px;
+            }
+            
+            .drive-link {
+                padding: 15px 30px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="logo">
+            <i class="fab fa-google-drive"></i>
+        </div>
+        
+        <h1>Google Drive 文件夹</h1>
+        <p class="subtitle">您将在几秒钟内被重定向到 Google Drive 文件夹。如果页面没有自动跳转，请点击下方的大按钮。</p>
+        
+        <!-- 这是你要的"更大的中间区域" -->
+        <div class="drive-box">
+            <div class="drive-icon">
+                <i class="fab fa-google-drive"></i>
+            </div>
+            <h2 style="color: white; margin-bottom: 25px;">点击访问 Google Drive</h2>
+            <a href="https://drive.google.com/drive/folders/1TuHiogcZ9p08ol-aS3qd7Wcj0U0NhDtS?usp=sharing" class="drive-link" id="manualLink">
+                <i class="fas fa-external-link-alt"></i> 打开 Google Drive 文件夹
+            </a>
+            <p style="color: rgba(255, 255, 255, 0.9); margin-top: 20px;">
+                文件夹包含：设计资源、项目文件和其他相关资料
+            </p>
+        </div>
+        
+        <div class="countdown">
+            页面将在 <span id="timer">5</span> 秒后自动跳转...
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        
+        <p class="manual-redirect">
+            如果您的浏览器没有自动跳转，或者您想立即访问，请点击上方的大按钮。<br>
+            您也可以复制此链接：<br>
+            <code style="background-color: #f8f9fa; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;">
+                https://drive.google.com/drive/folders/1TuHiogcZ9p08ol-aS3qd7Wcj0U0NhDtS?usp=sharing
+            </code>
+        </p>
+    </div>
+    
+    <!-- 原有的自动跳转meta标签保留，作为后备 -->
+    <meta http-equiv="refresh" content="5; url='https://drive.google.com/drive/folders/1TuHiogcZ9p08ol-aS3qd7Wcj0U0NhDtS?usp=sharing'">
+    
+    <script>
+        // 倒计时和手动跳转增强
+        let seconds = 5;
+        const timerElement = document.getElementById('timer');
+        const manualLink = document.getElementById('manualLink');
+        
+        function updateTimer() {
+            timerElement.textContent = seconds;
+            seconds--;
+            
+            if (seconds < 0) {
+                // 倒计时结束，自动跳转
+                window.location.href = manualLink.href;
+            } else {
+                // 继续倒计时
+                setTimeout(updateTimer, 1000);
+            }
+        }
+        
+        // 页面加载后开始倒计时
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTimer();
+            
+            // 添加点击统计（可选，可以用console.log查看）
+            manualLink.addEventListener('click', function() {
+                console.log('用户点击了手动跳转按钮');
+            });
+        });
+    </script>
+</body>
 </html>
