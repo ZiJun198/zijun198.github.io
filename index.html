@@ -216,7 +216,13 @@
         let seconds = 5;
         const timerElement = document.getElementById('timer');
         const manualLink = document.getElementById('manualLink');
-        
+        const progressBar = document.getElementById('progressBar');
+
+        function updateProgress() {
+            timePassed += updateInterval;
+        const progress = Math.min((timePassed / totalTime) * 100, 100);
+            progressBar.style.width = progress + '%';
+            
         function updateTimer() {
             timerElement.textContent = seconds;
             seconds--;
