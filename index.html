@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to Hub</title>
+    <title>ZiJun Hub — Redirecting</title>
     <style>
         * {
             margin: 0;
@@ -12,120 +12,319 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: #0a0a1a;
+        }
+        
+        /* Full-screen video container */
+        .video-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        /* YouTube iframe — fully stretched */
+        .video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+        }
+        
+        iframe.video-bg {
+            pointer-events: none;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        /* Fallback gradient */
+        .video-fallback {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            z-index: -1;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5));
+            z-index: 1;
         }
         
         .container {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 400px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(16px);
+            padding: 2.5rem;
+            border-radius: 32px;
+            max-width: 520px;
             width: 90%;
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInUp 0.6s ease-out;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
         
-        .drive-logo {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 2rem;
-            animation: pulse 2s infinite;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
-        .drive-logo svg {
-            width: 100%;
-            height: 100%;
-        }
-        
-        h2 {
-            color: #333;
+        /* ===== NEW ANIMATED LOGO ===== */
+        .logo {
             margin-bottom: 1rem;
         }
-        
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #4285f4;
+        .animated-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
             border-radius: 50%;
-            margin: 20px auto;
-            animation: spin 1s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: white;
+            box-shadow: 0 8px 25px rgba(124,58,237,0.4);
+        }
+        .pulse-logo {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(124,58,237,0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(124,58,237,0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(124,58,237,0);
+            }
+        }
+        /* ===== END LOGO ===== */
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .preview-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+            margin: 1rem 0 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .preview-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        
+        .preview-item {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(4px);
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .preview-item i {
+            font-size: 0.9rem;
+        }
+        
+        .countdown-circle {
+            margin: 1.5rem auto;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .countdown-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 10px rgba(124,58,237,0.5);
+        }
+        
+        svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        
+        circle {
+            fill: none;
+            stroke: rgba(255,255,255,0.2);
+            stroke-width: 4;
+        }
+        
+        .progress-circle {
+            stroke: #c084fc;
+            stroke-dasharray: 251;
+            stroke-dashoffset: 251;
+            transition: stroke-dashoffset 0.1s linear;
+            filter: drop-shadow(0 0 5px rgba(192,132,252,0.5));
         }
         
         .redirect-btn {
-            background: #4285f4;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 16px;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
-            display: inline-block;
+            margin-top: 0.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(124,58,237,0.4);
         }
         
         .redirect-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(66,133,244,0.4);
+            transform: translateY(-3px);
+            gap: 0.9rem;
+            box-shadow: 0 12px 28px rgba(124,58,237,0.6);
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .auto-redirect {
-            color: #666;
-            font-size: 14px;
+        .auto-text {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.7rem;
             margin-top: 1rem;
         }
+        
+        @media (max-width: 600px) {
+            .container { padding: 1.8rem; }
+            h1 { font-size: 1.6rem; }
+            .preview-item { font-size: 0.75rem; padding: 0.5rem 1rem; }
+            .countdown-circle { width: 70px; height: 70px; }
+            .countdown-number { font-size: 1.6rem; }
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="video-fallback"></div>
+    
+    <!-- Full-screen video wrapper -->
+    <div class="video-wrapper">
+        <iframe 
+            class="video-bg" 
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&modestbranding=1&showinfo=0&rel=0&disablekb=1&fs=0"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </div>
+    <div class="overlay"></div>
+    
     <div class="container">
-        <div class="drive-logo">
-            <svg viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
-                <path d="M43.65 25l13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-27.5c-1.6 0-3.15.45-4.5 1.2l13.75 23.8h9z" fill="#00ac47"/>
-                <path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.5l13.75 23.8z" fill="#ea4335"/>
-                <path d="M43.65 53l-13.75-23.8-13.75 23.8 13.75 23.8 13.75-23.8z" fill="#4285f4"/>
-                <path d="M59.4 53l-13.75-23.8h-27.5l27.5 47.6 13.75-23.8z" fill="#ffba00"/>
-                <path d="M73.4 26.85l-13.75-23.8-27.5 47.6h27.5l13.75-23.8z" fill="#ffba00"/>
-            </svg>
+        <!-- NEW LOGO — pulsing code bracket -->
+        <div class="logo">
+            <div class="animated-logo pulse-logo">
+                <i class="fas fa-code"></i>
+            </div>
         </div>
         
-        <h2>Google Drive / HUB</h2>
-        <p>Taking you to Zi Jun central hub...</p>
+        <h1>ZiJun Central Hub</h1>
         
-        <div class="loader"></div>
+        <div class="preview-text">
+            Your gateway to design tools, AI assistants, and interactive projects.
+        </div>
         
-        <a href="YOUR_HUB_URL_HERE" class="redirect-btn">Go to Hub Now</a>
-        <p class="auto-redirect">Auto-redirect in <span id="countdown">5</span> seconds</p>
+        <div class="preview-grid">
+            <div class="preview-item">
+                <i class="fas fa-arrow-right"></i> Redirecting to ZiJun Hub
+            </div>
+            <div class="preview-item">
+                <i class="fas fa-smile"></i> Please enjoy your stay
+            </div>
+        </div>
+        
+        <div class="countdown-circle">
+            <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" stroke-width="4"/>
+                <circle class="progress-circle" cx="50" cy="50" r="40" stroke-width="4"/>
+            </svg>
+            <div class="countdown-number" id="countdown-number">10</div>
+        </div>
+        
+        <a href="https://pacguy-mtk.github.io/" class="redirect-btn">
+            <span>✨ Enter Hub</span> <i class="fas fa-arrow-right"></i>
+        </a>
+        <div class="auto-text">Auto-redirect in <span id="countdown-text">10</span> seconds</div>
     </div>
 
     <script>
-        // Replace with your actual hub URL
         const HUB_URL = "https://pacguy-mtk.github.io/";
+        let seconds = 10;
+        const countdownNumber = document.getElementById('countdown-number');
+        const countdownText = document.getElementById('countdown-text');
+        const progressCircle = document.querySelector('.progress-circle');
+        const circumference = 2 * Math.PI * 40;
         
-        // Auto redirect countdown
-        let seconds = 5;
-        const countdownEl = document.getElementById('countdown');
+        progressCircle.style.strokeDasharray = `${circumference}`;
+        
+        function updateProgress() {
+            const offset = circumference - (seconds / 10) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+        }
         
         const interval = setInterval(() => {
             seconds--;
-            countdownEl.textContent = seconds;
+            countdownNumber.textContent = seconds;
+            countdownText.textContent = seconds;
+            updateProgress();
             
             if (seconds <= 0) {
                 clearInterval(interval);
@@ -133,7 +332,8 @@
             }
         }, 1000);
         
-        // Manual redirect
+        updateProgress();
+        
         document.querySelector('.redirect-btn').addEventListener('click', (e) => {
             e.preventDefault();
             window.location.href = HUB_URL;
