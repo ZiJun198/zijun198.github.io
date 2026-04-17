@@ -257,15 +257,11 @@
 <body>
     <div class="video-fallback"></div>
     
-    <!-- Full-screen video wrapper -->
-    <div class="video-wrapper">
-    <iframe 
-        class="video-bg"
-        src="https://player.vimeo.com/video/1071968720?autoplay=1&muted=1&loop=1&background=1"
-        frameborder="0"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen>
-    </iframe>
+<video autoplay muted loop playsinline style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; z-index: -2; filter: blur(7px) brightness(0.4) saturate(0.6);">
+    <source src="https://github.com/pacguy-mtk/pacguy-mtk.github.io/raw/refs/heads/main/githubhubvid.mp4" type="video/mp4">
+</video>
+<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: repeating-linear-gradient(0deg, rgba(0,255,0,0.1) 0px, rgba(0,255,0,0.1) 2px, transparent 2px, transparent 6px); pointer-events: none; z-index: -1;"></div>
+    
 </div>
     <div class="overlay"></div>
     
