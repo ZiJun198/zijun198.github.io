@@ -1,349 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZiJun Hub — Redirecting</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%237c3aed'/%3E%3Ctext x='50' y='70' font-size='50' text-anchor='middle' fill='white' font-family='monospace'%3E%7B%7D%3C/text%3E%3C/svg%3E">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            background: #0a0a1a;
-        }
-        
-        /* Full-screen video container */
-        .video-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-        
-        /* YouTube iframe — fully stretched */
-        .video-bg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: translate(-50%, -50%);
-        }
-        
-        iframe.video-bg {
-            pointer-events: none;
-            width: 100vw;
-            height: 100vh;
-        }
-        
-        /* Fallback gradient */
-        .video-fallback {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            z-index: -1;
-        }
-        
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5));
-            z-index: 1;
-        }
-        
-        .container {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(16px);
-            padding: 2.5rem;
-            border-radius: 32px;
-            max-width: 520px;
-            width: 90%;
-            border: 1px solid rgba(255,255,255,0.2);
-            animation: fadeInUp 0.6s ease-out;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* ===== NEW ANIMATED LOGO ===== */
-        .logo {
-            margin-bottom: 1rem;
-        }
-        .animated-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, #7c3aed, #a855f7);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            color: white;
-            box-shadow: 0 8px 25px rgba(124,58,237,0.4);
-        }
-        .pulse-logo {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(124,58,237,0.7);
-            }
-            70% {
-                transform: scale(1.05);
-                box-shadow: 0 0 0 15px rgba(124,58,237,0);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(124,58,237,0);
-            }
-        }
-        /* ===== END LOGO ===== */
-        
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #c084fc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-        
-        .preview-text {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.9rem;
-            margin: 1rem 0 1.5rem;
-            line-height: 1.5;
-        }
-        
-        .preview-grid {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin: 1.5rem 0;
-        }
-        
-        .preview-item {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(4px);
-            padding: 0.6rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .preview-item i {
-            font-size: 0.9rem;
-        }
-        
-        .countdown-circle {
-            margin: 1.5rem auto;
-            position: relative;
-            width: 80px;
-            height: 80px;
-        }
-        
-        .countdown-number {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 0 10px rgba(124,58,237,0.5);
-        }
-        
-        svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-        
-        circle {
-            fill: none;
-            stroke: rgba(255,255,255,0.2);
-            stroke-width: 4;
-        }
-        
-        .progress-circle {
-            stroke: #c084fc;
-            stroke-dasharray: 251;
-            stroke-dashoffset: 251;
-            transition: stroke-dashoffset 0.1s linear;
-            filter: drop-shadow(0 0 5px rgba(192,132,252,0.5));
-        }
-        
-        .redirect-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            background: linear-gradient(135deg, #7c3aed, #a855f7);
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            margin-top: 0.5rem;
-            transition: all 0.3s;
-            box-shadow: 0 8px 20px rgba(124,58,237,0.4);
-        }
-        
-        .redirect-btn:hover {
-            transform: translateY(-3px);
-            gap: 0.9rem;
-            box-shadow: 0 12px 28px rgba(124,58,237,0.6);
-        }
-        
-        .auto-text {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.7rem;
-            margin-top: 1rem;
-        }
-        
-        @media (max-width: 600px) {
-            .container { padding: 1.8rem; }
-            h1 { font-size: 1.6rem; }
-            .preview-item { font-size: 0.75rem; padding: 0.5rem 1rem; }
-            .countdown-circle { width: 70px; height: 70px; }
-            .countdown-number { font-size: 1.6rem; }
-        }
-                /* Video background */
-        #hub-video-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-            filter: brightness(0.6);
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZiJun Hub — Redirecting</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%237c3aed'/%3E%3Ctext x='50' y='70' font-size='50' text-anchor='middle' fill='white' font-family='monospace'%3E%7B%7D%3C/text%3E%3C/svg%3E">
+  <!-- Font Awesome loaded FIRST so icons don't flash on render -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ─── RESET ─────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ─── BASE ─────────────────────────────── */
+    :root {
+      --purple:    #7c3aed;
+      --purple-hi: #a855f7;
+      --text:      #eef2ff;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0a0a1a;
+      overflow: hidden;
+    }
+
+    /* ─── VIDEO BACKGROUND ──────────────────── */
+    /* Single consolidated video bg rule — no more duplicate/unused CSS */
+    .bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: 50% 25%;
+      z-index: -2;
+      filter: blur(4px) brightness(0.8) saturate(0.8);
+    }
+
+    /* ─── SCANLINES ──────────────────────────── */
+    /* Fixed: was 0.1 opacity — too heavy, made text hard to read */
+    .bg-scanlines {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: repeating-linear-gradient(
+        0deg,
+        rgba(0,255,0,0.04) 0px, rgba(0,255,0,0.04) 1px,
+        transparent 1px, transparent 6px
+      );
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* ─── OVERLAY ────────────────────────────── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.65), rgba(0,0,0,0.45));
+      z-index: 0;
+    }
+
+    /* ─── CARD ───────────────────────────────── */
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px);
+      padding: 2.5rem;
+      border-radius: 32px;
+      max-width: 520px;
+      width: 90%;
+      border: 1px solid rgba(255,255,255,0.2);
+      animation: fadeInUp 0.6s ease-out;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    /* ─── LOGO ───────────────────────────────── */
+    .logo { margin-bottom: 1rem; }
+
+    .animated-logo {
+      width: 80px; height: 80px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, var(--purple), var(--purple-hi));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; color: white;
+      box-shadow: 0 8px 25px rgba(124,58,237,0.4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0    rgba(124,58,237,0.7); }
+      70%       { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(124,58,237,0);   }
+    }
+
+    /* ─── TYPOGRAPHY ─────────────────────────── */
+    h1 {
+      font-size: 2rem; font-weight: 700;
+      background: linear-gradient(135deg, #fff, #c084fc);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .preview-text {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.9rem;
+      margin: 1rem 0 1.5rem;
+      line-height: 1.5;
+    }
+
+    /* ─── PREVIEW PILLS ──────────────────────── */
+    .preview-grid {
+      display: flex; justify-content: center; gap: 1rem;
+      flex-wrap: wrap; margin: 1.5rem 0;
+    }
+
+    .preview-item {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(4px);
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* ─── COUNTDOWN ──────────────────────────── */
+    .countdown-circle {
+      margin: 1.5rem auto;
+      position: relative;
+      width: 80px; height: 80px;
+    }
+
+    .countdown-number {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem; font-weight: bold;
+      color: white;
+      text-shadow: 0 0 10px rgba(124,58,237,0.5);
+    }
+
+    /* Scoped SVG selectors — fixed global circle/svg rules that would
+       affect any other SVG added to the page in the future */
+    .countdown-circle svg {
+      width: 100%; height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .countdown-circle circle {
+      fill: none;
+      stroke: rgba(255,255,255,0.2);
+      stroke-width: 4;
+    }
+
+    .progress-circle {
+      stroke: #c084fc;
+      stroke-dasharray: 251;
+      stroke-dashoffset: 251;
+      transition: stroke-dashoffset 0.1s linear;
+      filter: drop-shadow(0 0 5px rgba(192,132,252,0.5));
+    }
+
+    /* ─── BUTTON ─────────────────────────────── */
+    .redirect-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: linear-gradient(135deg, var(--purple), var(--purple-hi));
+      color: white; border: none;
+      padding: 12px 28px; border-radius: 40px;
+      font-size: 1rem; font-weight: 500; cursor: pointer;
+      text-decoration: none; margin-top: 0.5rem;
+      transition: transform 0.3s, gap 0.3s, box-shadow 0.3s;
+      box-shadow: 0 8px 20px rgba(124,58,237,0.4);
+    }
+
+    .redirect-btn:hover {
+      transform: translateY(-3px);
+      gap: 0.9rem;
+      box-shadow: 0 12px 28px rgba(124,58,237,0.6);
+    }
+
+    .auto-text {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 600px) {
+      .container { padding: 1.8rem; }
+      h1 { font-size: 1.6rem; }
+      .preview-item { font-size: 0.75rem; padding: 0.5rem 1rem; }
+      .countdown-circle { width: 70px; height: 70px; }
+      .countdown-number { font-size: 1.6rem; }
+    }
+  </style>
 </head>
-<body>    
-<video autoplay muted loop playsinline style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; z-index: -2; filter: blur(4px) brightness(0.8) saturate(0.8);">
+<body>
+
+  <!-- Single, clean video background — removed duplicate #hub-video-bg rule -->
+  <video class="bg-video" autoplay muted loop playsinline>
     <source src="https://github.com/pacguy-mtk/pacguy-mtk.github.io/raw/refs/heads/main/githubhubvid.mp4" type="video/mp4">
-</video>
-<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: repeating-linear-gradient(0deg, rgba(0,255,0,0.1) 0px, rgba(0,255,0,0.1) 2px, transparent 2px, transparent 6px); pointer-events: none; z-index: -1;"></div>
-    
-</div>
-    <div class="overlay"></div>
-    
-    <div class="container">
-        <!-- NEW LOGO — pulsing code bracket -->
-        <div class="logo">
-            <div class="animated-logo pulse-logo">
-                <i class="fas fa-code"></i>
-            </div>
-        </div>
-        
-        <h1>ZiJun Central Hub</h1>
-        
-        <div class="preview-text">
-            Your gateway to design tools, AI assistants, and interactive projects.
-        </div>
-        
-        <div class="preview-grid">
-            <div class="preview-item">
-                <i class="fas fa-arrow-right"></i> Redirecting to ZiJun Hub
-            </div>
-            <div class="preview-item">
-                <i class="fas fa-smile"></i> Please enjoy your stay
-            </div>
-        </div>
-        
-        <div class="countdown-circle">
-            <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="40" stroke-width="4"/>
-                <circle class="progress-circle" cx="50" cy="50" r="40" stroke-width="4"/>
-            </svg>
-            <div class="countdown-number" id="countdown-number">10</div>
-        </div>
-        
-        <a href="https://pacguy-mtk.github.io/" class="redirect-btn">
-            <span>✨ Enter Hub</span> <i class="fas fa-arrow-right"></i>
-        </a>
-        <div class="auto-text">Auto-redirect in <span id="countdown-text">10</span> seconds</div>
+  </video>
+
+  <!-- Scanlines -->
+  <div class="bg-scanlines"></div>
+
+  <!-- Overlay -->
+  <div class="overlay"></div>
+
+  <!-- Card -->
+  <div class="container">
+    <div class="logo">
+      <div class="animated-logo">
+        <i class="fas fa-code"></i>
+      </div>
     </div>
 
-    <script>
-        const HUB_URL = "https://pacguy-mtk.github.io/";
-        let seconds = 10;
-        const countdownNumber = document.getElementById('countdown-number');
-        const countdownText = document.getElementById('countdown-text');
-        const progressCircle = document.querySelector('.progress-circle');
-        const circumference = 2 * Math.PI * 40;
-        
-        progressCircle.style.strokeDasharray = `${circumference}`;
-        
-        function updateProgress() {
-            const offset = circumference - (seconds / 10) * circumference;
-            progressCircle.style.strokeDashoffset = offset;
-        }
-        
-        const interval = setInterval(() => {
-            seconds--;
-            countdownNumber.textContent = seconds;
-            countdownText.textContent = seconds;
-            updateProgress();
-            
-            if (seconds <= 0) {
-                clearInterval(interval);
-                window.location.href = HUB_URL;
-            }
-        }, 1000);
-        
-        updateProgress();
-        
-        document.querySelector('.redirect-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = HUB_URL;
-        });
-    </script>
+    <h1>ZiJun Central Hub</h1>
+
+    <div class="preview-text">
+      Your gateway to design tools, AI assistants, and interactive projects.
+    </div>
+
+    <div class="preview-grid">
+      <div class="preview-item">
+        <i class="fas fa-arrow-right"></i> Redirecting to ZiJun Hub
+      </div>
+      <div class="preview-item">
+        <i class="fas fa-smile"></i> Please enjoy your stay
+      </div>
+    </div>
+
+    <div class="countdown-circle">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" stroke-width="4"/>
+        <circle class="progress-circle" cx="50" cy="50" r="40" stroke-width="4"/>
+      </svg>
+      <div class="countdown-number" id="countdown-number">10</div>
+    </div>
+
+    <a href="https://pacguy-mtk.github.io/" class="redirect-btn">
+      <span>✨ Enter Hub</span> <i class="fas fa-arrow-right"></i>
+    </a>
+    <div class="auto-text">Auto-redirect in <span id="countdown-text">10</span> seconds</div>
+  </div>
+
+  <script>
+    const HUB_URL = 'https://pacguy-mtk.github.io/';
+    let seconds = 10;
+    const countdownNumber = document.getElementById('countdown-number');
+    const countdownText   = document.getElementById('countdown-text');
+    const progressCircle  = document.querySelector('.progress-circle');
+    const circumference   = 2 * Math.PI * 40;
+
+    progressCircle.style.strokeDasharray = circumference;
+
+    function updateProgress() {
+      const offset = circumference - (seconds / 10) * circumference;
+      progressCircle.style.strokeDashoffset = offset;
+    }
+
+    const interval = setInterval(() => {
+      seconds--;
+      countdownNumber.textContent = seconds;
+      countdownText.textContent   = seconds;
+      updateProgress();
+      if (seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = HUB_URL;
+      }
+    }, 1000);
+
+    updateProgress();
+
+    document.querySelector('.redirect-btn').addEventListener('click', e => {
+      e.preventDefault();
+      clearInterval(interval); // Fixed: original didn't clear interval on manual click
+      window.location.href = HUB_URL;
+    });
+  </script>
 </body>
 </html>
