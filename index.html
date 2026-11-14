@@ -5,257 +5,145 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#07111f">
-  <meta name="description" content="ZiJun Hub gateway. Choose the 3D room or the classic site; the hub opens automatically in 10 seconds.">
-  <meta property="og:title" content="ZiJun Hub">
-  <meta property="og:description" content="Design tools, AI assistants, creative experiments and a cozy 3D desk.">
-  <title>ZiJun Hub | Welcome</title>
+  <meta name="description" content="ZiJun Hub. Choose the 3D room or the classic site; the room opens automatically in 10 seconds.">
+  <title>ZiJun Hub</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2307111f'/%3E%3Ctext x='50' y='66' text-anchor='middle' font-family='Arial' font-weight='900' font-size='46' fill='%2342e8d4'%3EZJ%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;650;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;650;900&display=swap" rel="stylesheet">
   <noscript><meta http-equiv="refresh" content="10;url=https://pacguy-mtk.github.io/?mode=classic"></noscript>
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #07111f;
-      --text: #f4f7ff;
-      --muted: #aab5ce;
-      --faint: #6e7890;
-      --line: rgba(255, 255, 255, 0.13);
-      --cyan: #42e8d4;
-      --violet: #8b5cf6;
-      --blue: #7aa7ff;
-      --glass: rgba(11, 15, 28, 0.72);
-      --shadow: 0 28px 90px rgba(0, 0, 0, 0.5);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+    :root { color-scheme: dark; --bg: #07111f; --text: #f4f7ff; --muted: #aab5ce; --line: rgba(255,255,255,.16); --cyan: #42e8d4; --blue: #7aa7ff; --violet: #8b5cf6;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
     * { box-sizing: border-box; }
-    html, body { min-height: 100%; }
-    body { margin: 0; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    html, body { height: 100%; }
+    body { margin: 0; display: grid; place-items: center; color: var(--text); background: var(--bg); overflow: hidden; }
 
-    /* background: the hangar video, tinted to the site palette */
-    .bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; z-index: -3; filter: saturate(1.05) brightness(.82); }
-    .shade { position: fixed; inset: 0; z-index: -2; pointer-events: none;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(66, 232, 212, 0.16), transparent 34rem),
-        radial-gradient(circle at 86% 26%, rgba(139, 92, 246, 0.2), transparent 28rem),
-        linear-gradient(90deg, rgba(7, 17, 31, 0.9) 0%, rgba(7, 17, 31, 0.62) 46%, rgba(7, 17, 31, 0.3) 100%),
-        linear-gradient(0deg, rgba(7, 17, 31, 0.8) 0%, rgba(7, 17, 31, 0.1) 45%); }
+    /* background: plain video + one static gradient. No blur, no CSS filters, so nothing is re-drawn per frame. */
+    .bg { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; z-index: -2; }
+    .shade { position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 46%, rgba(7,17,31,.62), rgba(7,17,31,.9) 78%), linear-gradient(0deg, rgba(7,17,31,.9), transparent 42%); }
 
-    .top { position: fixed; top: 0; left: 0; right: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 16px clamp(18px, 4vw, 40px); pointer-events: none; }
-    .brand { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; pointer-events: auto; }
-    .mark { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; font-weight: 900; font-size: 14px; color: #07111f; background: linear-gradient(135deg, var(--cyan), var(--violet)); }
-    .brand b { display: block; font-size: 14px; line-height: 1.2; }
-    .brand small { display: block; font-size: 11px; color: var(--faint); }
-    .live { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; background: rgba(8, 12, 22, .6); border: 1px solid var(--line); backdrop-filter: blur(10px); font-size: 12px; color: var(--muted); }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+    .mark { position: fixed; top: 16px; left: 16px; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-weight: 900; font-size: 14px; color: #07111f; text-decoration: none; background: linear-gradient(135deg, var(--cyan), var(--violet)); }
 
-    .page { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: clamp(22px, 4vw, 56px); align-items: center; padding: clamp(84px, 11vh, 110px) clamp(20px, 5vw, 72px) clamp(28px, 5vw, 56px); }
-    .hero { max-width: 780px; animation: rise .7s cubic-bezier(.2, .8, .2, 1) both; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(66, 232, 212, .35); background: rgba(66, 232, 212, .08); color: #bff7ee; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    h1 { margin: 18px 0 14px; font-size: clamp(2.6rem, 7vw, 5.4rem); line-height: .98; font-weight: 900; letter-spacing: -.02em; }
-    .grad { background: linear-gradient(135deg, var(--cyan), var(--blue) 55%, var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .lead { max-width: 54ch; margin: 0; color: #d3dcf0; font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.7; }
+    main { width: min(380px, calc(100% - 40px)); display: grid; gap: 12px; text-align: center; animation: fade .6s ease both; }
+    h1 { margin: 0; font-size: clamp(2.6rem, 10vw, 3.8rem); line-height: 1; font-weight: 900; letter-spacing: -.02em; }
+    h1 span { background: linear-gradient(135deg, var(--cyan), var(--blue) 55%, var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .sub { margin: 0 0 18px; color: var(--muted); font-size: .95rem; }
 
-    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
-    .choice { position: relative; display: grid; gap: 8px; align-content: start; padding: 18px; border-radius: 20px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(14px); color: inherit; text-decoration: none; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
-    .choice:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, .28); }
-    .choice:focus-visible, .btn:focus-visible { outline: 3px solid rgba(66, 232, 212, .8); outline-offset: 3px; }
-    .choice.is-target { border-color: rgba(66, 232, 212, .6); box-shadow: 0 0 0 1px rgba(66, 232, 212, .25), 0 18px 50px rgba(66, 232, 212, .12); }
-    .ico { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, rgba(66, 232, 212, .2), rgba(139, 92, 246, .24)); border: 1px solid var(--line); }
-    .choice h2 { margin: 6px 0 0; font-size: 1.12rem; font-weight: 800; }
-    .choice p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.55; }
-    .go { margin-top: 6px; display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 650; color: var(--cyan); }
-    .tag { position: absolute; top: 14px; right: 14px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; background: rgba(255, 255, 255, .08); color: var(--muted); }
-    .choice.is-target .tag { background: var(--cyan); color: #06121c; }
+    .opt { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; padding: 0 20px; border-radius: 18px; color: var(--text); text-decoration: none; background: rgba(7,17,31,.72); border: 1px solid var(--line); transition: transform .15s ease, border-color .15s ease; }
+    .opt:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.34); }
+    .opt:focus-visible, .pause:focus-visible { outline: 3px solid rgba(66,232,212,.85); outline-offset: 3px; }
+    .opt.main { border-color: rgba(66,232,212,.6); }
+    .fill { position: absolute; inset: 0; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, rgba(66,232,212,.5), rgba(122,167,255,.5)); will-change: transform; pointer-events: none; }
+    .opt > span { position: relative; display: inline-flex; align-items: center; gap: 12px; font-weight: 650; font-size: 1.05rem; }
+    .opt svg { flex: none; }
+    .opt em { position: relative; font-style: normal; font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .opt.main em { color: var(--text); font-weight: 650; }
 
-    .dock { padding: 22px; border-radius: 24px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(16px); box-shadow: var(--shadow); animation: rise .7s .12s cubic-bezier(.2, .8, .2, 1) both; }
-    .ring { position: relative; width: 156px; aspect-ratio: 1; margin: 2px auto 16px; display: grid; place-items: center; }
-    .ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-    .track, .progress { fill: none; stroke-width: 7; }
-    .track { stroke: rgba(255, 255, 255, .14); }
-    .progress { stroke: url(#tg); stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(66, 232, 212, .45)); }
-    .num { width: 96px; height: 96px; display: grid; place-items: center; border-radius: 50%; background: rgba(0, 0, 0, .3); border: 1px solid var(--line); font-size: 3rem; font-weight: 900; line-height: 1; }
-    .status { margin: 0; text-align: center; color: var(--muted); line-height: 1.55; font-size: .95rem; }
-    .status strong { color: var(--text); }
-    .status small { display: block; margin-top: 2px; color: var(--faint); }
-    .row { display: grid; gap: 10px; margin-top: 16px; }
-    .btn { min-height: 44px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; font: inherit; font-weight: 650; font-size: .92rem; cursor: pointer; text-decoration: none; transition: transform .18s ease, background .18s ease; }
-    .btn:hover { transform: translateY(-1px); }
-    .btn.primary { border: 0; color: #06121c; background: linear-gradient(135deg, var(--cyan), var(--blue)); box-shadow: 0 0 26px rgba(66, 232, 212, .28); }
-    .btn.ghost { color: var(--text); background: rgba(255, 255, 255, .06); border: 1px solid var(--line); }
-    .btn.ghost:hover { background: rgba(255, 255, 255, .1); }
-    .foot { margin: 14px 0 0; text-align: center; color: var(--faint); font-size: .72rem; }
+    .pause { justify-self: center; margin-top: 4px; padding: 6px 10px; background: none; border: 0; color: var(--muted); font: inherit; font-size: .85rem; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+    .pause:hover { color: var(--text); }
+    .credit { position: fixed; left: 0; right: 0; bottom: 12px; text-align: center; font-size: .72rem; color: rgba(170,181,206,.6); pointer-events: none; }
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-    @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-    @media (max-width: 860px) {
-      .page { grid-template-columns: 1fr; align-items: start; }
-      .dock { max-width: 420px; }
-      .ring { width: 124px; } .num { width: 76px; height: 76px; font-size: 2.4rem; }
-    }
-    @media (max-width: 560px) {
-      .choices { grid-template-columns: 1fr; }
-      .brand small, .live { display: none; }
-    }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
+    @keyframes fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
   </style>
 </head>
 <body>
-  <video class="bg-video" id="bg" autoplay muted loop playsinline preload="auto" poster="assets/bg-poster.jpg" aria-hidden="true">
-    <source src="assets/bg.mp4" type="video/mp4">
-  </video>
+  <video class="bg" id="bg" autoplay muted loop playsinline preload="auto" poster="assets/bg-poster.jpg" aria-hidden="true"><source src="assets/bg.mp4" type="video/mp4"></video>
   <div class="shade" aria-hidden="true"></div>
+  <a class="mark" href="https://pacguy-mtk.github.io/" aria-label="ZiJun Hub">ZJ</a>
 
-  <header class="top">
-    <a class="brand" href="https://pacguy-mtk.github.io/" aria-label="ZiJun Hub"><div class="mark">ZJ</div><span><b>ZiJun Hub</b><small>Design / AI / Tools</small></span></a>
-    <span class="live"><span class="dot" aria-hidden="true"></span> Gateway</span>
-  </header>
+  <main id="box">
+    <h1>ZiJun <span>Hub</span></h1>
+    <p class="sub">Design / AI / Tools</p>
 
-  <main class="page">
-    <section class="hero" aria-labelledby="title">
-      <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Welcome, visitor</div>
-      <h1 id="title">ZiJun <span class="grad">Hub</span></h1>
-      <p class="lead">Design tools, AI assistants, creative experiments and a cozy 3D desk, all in one place. Pick how you would like to visit, or the hub opens for you in a moment.</p>
-
-      <div class="choices">
-        <a class="choice" id="c-room" data-to="room" href="https://pacguy-mtk.github.io/room.html?mode=room">
-          <span class="tag" id="t-room">Recommended</span>
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#42e8d4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9L12 3Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg></span>
-          <h2>3D Room</h2>
-          <p>A cozy night desk you can explore: gallery, music, tarot and Lumie, your little chat companion.</p>
-          <span class="go">Enter the room <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-        <a class="choice" id="c-classic" data-to="classic" href="https://pacguy-mtk.github.io/?mode=classic">
-          <span class="tag" id="t-classic">Lighter</span>
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7aa7ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M9 9v11"/></svg></span>
-          <h2>Classic site</h2>
-          <p>The scrolling hub with design work, AI tools and projects at a glance. Quick on any device.</p>
-          <span class="go">Open classic <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-      </div>
-    </section>
-
-    <aside class="dock" aria-label="Automatic redirect countdown">
-      <div class="ring" aria-hidden="true">
-        <svg viewBox="0 0 120 120">
-          <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#42e8d4"/><stop offset="55%" stop-color="#7aa7ff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
-          <circle class="track" cx="60" cy="60" r="52"></circle>
-          <circle class="progress" id="progress" cx="60" cy="60" r="52"></circle>
-        </svg>
-        <span class="num" id="seconds">10</span>
-      </div>
-      <p class="status"><span id="statusText">Opening <strong>3D Room</strong> in 10 seconds</span><small id="note">pacguy-mtk.github.io</small></p>
-      <div class="row">
-        <button class="btn primary" id="go" type="button">Go now</button>
-        <button class="btn ghost" id="swap" type="button">Open Classic instead</button>
-        <button class="btn ghost" id="pause" type="button" aria-pressed="false">Pause timer</button>
-      </div>
-      <p class="foot">this is ZiJun system, designed by ZiJun, built by AI.</p>
-    </aside>
+    <a class="opt main" id="a-room" href="https://pacguy-mtk.github.io/room.html?mode=room">
+      <i class="fill" id="fill"></i>
+      <span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#42e8d4" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9L12 3Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>3D Room</span>
+      <em id="e-room">10s</em>
+    </a>
+    <a class="opt" id="a-classic" href="https://pacguy-mtk.github.io/?mode=classic">
+      <span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7aa7ff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M9 9v11"/></svg>Classic site</span>
+      <em id="e-classic">lighter</em>
+    </a>
+    <button class="pause" id="pause" type="button" aria-pressed="false">Pause</button>
   </main>
+  <p class="credit">this is ZiJun system, designed by ZiJun, built by AI.</p>
   <div class="sr" id="live" aria-live="polite"></div>
 
   <script>
     (function () {
       var BASE = 'https://pacguy-mtk.github.io/';
-      var TARGETS = {
-        room:    { label: '3D Room',      url: BASE + 'room.html?mode=room' },
-        classic: { label: 'Classic site', url: BASE + '?mode=classic' }
-      };
-      var TOTAL_MS = 10000, KEY = 'zj_gate';
-
+      var URLS = { room: BASE + 'room.html?mode=room', classic: BASE + '?mode=classic' };
+      var TOTAL = 10000, KEY = 'zj_gate';
       var $ = function (id) { return document.getElementById(id); };
-      var video = $('bg'), progress = $('progress'), CIRC = 2 * Math.PI * 52;
-      progress.style.strokeDasharray = CIRC;
 
       /* can this visitor run the 3D room? (same checks as the main site) */
       function canRoom() {
-        try {
-          var c = document.createElement('canvas');
-          if (!(c.getContext('webgl2') || c.getContext('webgl'))) return false;
-        } catch (e) { return false; }
+        try { var c = document.createElement('canvas'); if (!(c.getContext('webgl2') || c.getContext('webgl'))) return false; } catch (e) { return false; }
         if (navigator.connection && navigator.connection.saveData) return false;
         if (/bot|crawl|spider|lighthouse/i.test(navigator.userAgent)) return false;
         return true;
       }
-      var roomOk = canRoom();
-
-      /* default target: ?to= override, then last choice, then room (or classic if the room cannot run) */
-      var q = new URLSearchParams(location.search), saved = null;
+      var roomOk = canRoom(), q = new URLSearchParams(location.search), saved = null;
       try { saved = localStorage.getItem(KEY); } catch (e) {}
-      var target = TARGETS[q.get('to')] ? q.get('to') : (TARGETS[saved] ? saved : 'room');
+      var target = URLS[q.get('to')] ? q.get('to') : (URLS[saved] ? saved : 'room');
       if (!roomOk) target = 'classic';
+      var other = target === 'room' ? 'classic' : 'room';
 
-      /* coming back with the browser Back button: do not trap the visitor, start paused */
-      var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
-      var cameBack = !!(nav && nav.type === 'back_forward');
+      /* the target gets the highlighted, filling button on top; the other sits below */
+      var mainEl = $('a-' + target), subEl = $('a-' + other), fill = $('fill'), sec = $('e-' + target);
+      mainEl.classList.add('main'); subEl.classList.remove('main');
+      mainEl.style.order = 1; subEl.style.order = 2; $('pause').style.order = 3;
+      mainEl.insertBefore(fill, mainEl.firstChild);
+      $('e-' + other).textContent = (other === 'classic') ? 'lighter' : (roomOk ? 'cozy desk' : 'may not run here');
+      $('box').style.gridAutoFlow = 'row';
 
-      var remaining = TOTAL_MS, deadline = 0, paused = false, timer = 0, lastAnnounced = -1;
+      function href(k) { return URLS[k] + location.hash; }
+      ['room', 'classic'].forEach(function (k) { $('a-' + k).href = href(k); });
+      function go(k) { try { localStorage.setItem(KEY, k); } catch (e) {} location.assign(href(k)); }
+      ['room', 'classic'].forEach(function (k) { $('a-' + k).addEventListener('click', function (e) { e.preventDefault(); go(k); }); });
 
-      function href(key) { return TARGETS[key].url + location.hash; }
-      function go(key) {
-        try { localStorage.setItem(KEY, key); } catch (e) {}
-        clearTimeout(timer);
-        location.assign(href(key));
-      }
+      /* the countdown IS the fill animation: it runs on the compositor (transform only), so it stays smooth */
+      var cameBack = (function () { var n = performance.getEntriesByType && performance.getEntriesByType('navigation')[0]; return !!(n && n.type === 'back_forward'); })();
+      var anim = null, paused = false, shown = -1, fallback = 0;
+      if (fill.animate) {
+        anim = fill.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: TOTAL, easing: 'linear', fill: 'forwards' });
+        anim.onfinish = function () { go(target); };
+      } else { fallback = setTimeout(function () { go(target); }, TOTAL); }
 
-      function paintTarget() {
-        ['room', 'classic'].forEach(function (k) {
-          $('c-' + k).classList.toggle('is-target', k === target);
-          $('c-' + k).href = href(k);
-        });
-        $('t-room').textContent = target === 'room' ? 'Opens next' : 'Recommended';
-        $('t-classic').textContent = target === 'classic' ? 'Opens next' : 'Lighter';
-        $('swap').textContent = 'Open ' + (target === 'room' ? 'Classic' : '3D Room') + ' instead';
-        if (!roomOk) { $('note').textContent = 'Your browser cannot run the 3D room, so Classic is selected.'; }
-      }
-
-      function render() {
-        var s = Math.ceil(remaining / 1000);
-        $('seconds').textContent = s;
-        progress.style.strokeDashoffset = (1 - remaining / TOTAL_MS) * CIRC;
-        if (!paused) {
-          $('statusText').innerHTML = 'Opening <strong>' + TARGETS[target].label + '</strong> in ' + s + ' second' + (s === 1 ? '' : 's');
-          document.title = 'ZiJun Hub | ' + s + 's';
-          if ((s === 10 || s === 5 || s === 3) && s !== lastAnnounced) { lastAnnounced = s; $('live').textContent = 'Opening ' + TARGETS[target].label + ' in ' + s + ' seconds'; }
+      function label() {
+        if (paused) { sec.textContent = 'paused'; document.title = 'ZiJun Hub'; return; }
+        var s = anim ? Math.max(0, Math.ceil((TOTAL - (anim.currentTime || 0)) / 1000)) : 10;
+        if (s !== shown) {
+          shown = s; sec.textContent = s + 's'; document.title = 'ZiJun Hub | ' + s + 's';
+          if (s === 10 || s === 5) $('live').textContent = 'Opening ' + (target === 'room' ? '3D Room' : 'Classic site') + ' in ' + s + ' seconds. Press Escape to pause.';
         }
       }
-
-      function loop() {
-        if (paused) return;
-        remaining = Math.max(0, deadline - Date.now());
-        render();
-        if (remaining <= 0) { go(target); return; }
-        timer = setTimeout(loop, 100);
+      function setPaused(p) {
+        paused = p;
+        if (anim) { p ? anim.pause() : anim.play(); } else if (p) { clearTimeout(fallback); } else { fallback = setTimeout(function () { go(target); }, TOTAL); }
+        $('pause').textContent = p ? 'Resume' : 'Pause'; $('pause').setAttribute('aria-pressed', String(p));
+        shown = -1; label();
       }
-      function start() { paused = false; deadline = Date.now() + remaining; $('pause').textContent = 'Pause timer'; $('pause').setAttribute('aria-pressed', 'false'); loop(); }
-      function pause(msg) {
-        paused = true; clearTimeout(timer);
-        $('pause').textContent = 'Resume timer'; $('pause').setAttribute('aria-pressed', 'true');
-        $('statusText').innerHTML = msg || 'Timer paused. Choose when you are ready.';
-        document.title = 'ZiJun Hub | Welcome';
-      }
+      $('pause').addEventListener('click', function () { setPaused(!paused); });
+      setInterval(label, 200);
+      if (cameBack) setPaused(true); else label();
 
-      $('go').addEventListener('click', function () { go(target); });
-      $('swap').addEventListener('click', function () { target = target === 'room' ? 'classic' : 'room'; paintTarget(); render(); });
-      $('pause').addEventListener('click', function () { paused ? start() : pause(); });
-      ['room', 'classic'].forEach(function (k) { $('c-' + k).addEventListener('click', function (e) { e.preventDefault(); go(k); }); });
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') { paused ? start() : pause(); }
-        else if (e.key === 'r' || e.key === 'R') go('room');
-        else if (e.key === 'c' || e.key === 'C') go('classic');
-        else if (e.key === 'Enter' && !/^(A|BUTTON)$/.test((document.activeElement || {}).tagName || '')) go(target);
+        var k = e.key.toLowerCase(), tag = (document.activeElement || {}).tagName || '';
+        if (e.key === 'Escape') setPaused(!paused);
+        else if (k === 'r') go('room');
+        else if (k === 'c') go('classic');
+        else if (e.key === 'Enter' && tag !== 'A' && tag !== 'BUTTON') go(target);
       });
 
-      /* background video: respect reduced motion / data saver, and rest when the tab is hidden */
-      var calm = matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData);
+      /* video: respect reduced motion / data saver, rest while the tab is hidden */
+      var video = $('bg'), calm = matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData);
       if (calm) { video.removeAttribute('autoplay'); video.pause(); }
-      document.addEventListener('visibilitychange', function () { if (calm) return; document.hidden ? video.pause() : video.play().catch(function () {}); });
-
-      paintTarget();
-      render();
-      if (cameBack) pause('Welcome back. Timer paused, choose where to go.'); else start();
+      document.addEventListener('visibilitychange', function () { if (!calm) { document.hidden ? video.pause() : video.play().catch(function () {}); } });
     })();
   </script>
 </body>
